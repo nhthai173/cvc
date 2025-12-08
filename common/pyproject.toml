@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cvc-common"
+version = "0.1.0"
+description = "Shared utilities for CVC system (local package)."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+	"python-dateutil==2.8.2",
+	"psycopg2-binary==2.9.9",
+	"Deprecated==1.2.18",
+	"pydantic==2.12.4",
+    "pydantic-settings==2.12.0",
+    "redis==7.0.1"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["common*"]
