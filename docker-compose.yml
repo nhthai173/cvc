@@ -15,7 +15,7 @@ services:
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
-      - ~/cvc-postgres-data:/var/lib/postgresql/data
+      - ~/cvc-postgres:/var/lib/postgresql
     networks:
       - cvc-network
     healthcheck:
