@@ -66,5 +66,5 @@ services:
       - emqx
     networks:
       - cvc-network
-    command: ["python", "-u", "mqtt-test/mqtt_subscriber.py"]
+    command: ["python", "-u", "mqtt_test/mqtt_subscriber.py"]
 

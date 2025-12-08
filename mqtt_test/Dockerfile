@@ -8,11 +8,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/app
 
 #
-COPY mqtt-test/requirements.txt ./requirements.txt
+COPY mqtt_test/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 #
-COPY mqtt-test ./mqtt-test
+COPY mqtt_test ./mqtt_test
 COPY common ./common
 
 #
@@ -26,4 +26,4 @@ USER appuser
 ENV PYTHONUNBUFFERED=1
 
 #
-CMD ["python", "-u", "mqtt-test/mqtt_subscriber.py"]
+CMD ["python", "-u", "mqtt_test/mqtt_subscriber.py"]
