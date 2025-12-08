@@ -1,0 +1,16 @@
+# Environment variables
+.env
+
+# Docker volumes data
+*-data/
+*-log/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

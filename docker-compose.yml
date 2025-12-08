@@ -1,0 +1,57 @@
+networks:
+  cvc-network:
+    driver: bridge
+
+services:
+
+  postgres:
+    image: postgres:18
+    container_name: cvc-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - ~/cvc-postgres-data:/var/lib/postgresql/data
+    networks:
+      - cvc-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  emqx:
+    image: emqx/emqx:6.0.1
+    container_name: cvc-emqx
+    restart: unless-stopped
+    environment:
+      - EMQX_NAME=cvc-emqx
+      - EMQX_HOST=node1.emqx.local
+      # Dashboard
+      - EMQX_DASHBOARD__DEFAULT_USERNAME=${EMQX_DASHBOARD_USER}
+      - EMQX_DASHBOARD__DEFAULT_PASSWORD=${EMQX_DASHBOARD_PASSWORD}
+      # Authentication
+      # - EMQX_AUTH__USER__1__USERNAME=${EMQX_MQTT_USER}
+      # - EMQX_AUTH__USER__1__PASSWORD=${EMQX_MQTT_PASSWORD}
+    ports:
+      - "${EMQX_MQTT_PORT:-1883}:1883"           # MQTT
+      - "${EMQX_MQTTS_PORT:-8883}:8883"          # MQTT/SSL
+      - "${EMQX_WS_PORT:-8083}:8083"             # MQTT/WebSocket
+      - "${EMQX_WSS_PORT:-8084}:8084"            # MQTT/WebSocket/SSL
+      - "${EMQX_DASHBOARD_PORT:-18083}:18083"    # Dashboard
+    volumes:
+      - ~/emqx-data:/opt/emqx/data
+      - ~/emqx-log:/opt/emqx/log
+    networks:
+      - cvc-network
+    healthcheck:
+      test: ["CMD", "emqx", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
