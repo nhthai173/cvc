@@ -28,6 +28,7 @@ services:
     image: emqx/emqx:6.0.1
     container_name: cvc-emqx
     restart: unless-stopped
+    user: "1000:1000"
     environment:
       - EMQX_NAME=cvc-emqx
       - EMQX_HOST=node1.emqx.local
