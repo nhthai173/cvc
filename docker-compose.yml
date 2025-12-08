@@ -56,3 +56,15 @@ services:
       retries: 5
       start_period: 30s
 
+  mqtt_test:
+    build:
+      context: ./mqtt_test
+      dockerfile: Dockerfile
+    container_name: cvc-mqtt-test
+    restart: unless-stopped
+    depends_on:
+      - emqx
+    networks:
+      - cvc-network
+    command: ["python", "-u", "mqtt-test/mqtt_subscriber.py"]
+
