@@ -58,8 +58,8 @@ services:
 
   mqtt_test:
     build:
-      context: ./mqtt_test
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: mqtt_test/Dockerfile
     container_name: cvc-mqtt-test
     restart: unless-stopped
     depends_on:
