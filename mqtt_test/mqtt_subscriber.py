@@ -97,7 +97,9 @@ def store_gateway_status(data):
         print_log(f"Error processing gateway status: {e}")
 
 def start_mqtt_subscriber():
-    client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION1, CLIENT_ID)
+    # Use the non-deprecated constructor. Pass client_id by name
+    # so we don't rely on the callback API version positional argument.
+    client = mqtt_client.Client(client_id=CLIENT_ID)
     client.username_pw_set(USERNAME, PASSWORD)
     client.on_connect = on_connect
     client.on_message = on_message
@@ -107,8 +109,9 @@ def start_mqtt_subscriber():
 if __name__ == "__main__":
     start_mqtt_subscriber()
     try:
+        # keep the main thread alive without busy-waiting
         while True:
-            pass
+            time.sleep(1)
     except Exception as e:
         print_log(f"An error occurred: {e}")
     finally:
